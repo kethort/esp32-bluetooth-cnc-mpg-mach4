@@ -279,6 +279,11 @@ class AppWindow(wx.Frame):
 		wizards_dir = os.path.join(mach_dir, 'Wizards')
 		shutil.copy('MPGWizBluetooth.mcs', wizards_dir)
 
+		# copy keyboard plugins to Mach directory
+		plugins_dir = os.path.join(mach_dir, 'Plugins')
+		shutil.copy('mcKeyboard.m4pw', plugins_dir)
+		shutil.copy('mcKeyboard.sig', plugins_dir)
+
 		# write the edited Machine.ini into the Mach4 Profiles directory
 		self.dict_to_machine_ini(ini_dict, ini_path)
 		
