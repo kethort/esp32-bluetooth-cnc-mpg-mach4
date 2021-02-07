@@ -189,7 +189,7 @@ class AppWindow(wx.Frame):
 		next_key = self.get_next_available_keyboard_key(ini_dict)
 		keys_dict = self.machine_ini_to_dict('keyboard_keys')
 
-		if next_key > 0:
+		if next_key >= 0:
 			for i in range(0, len(keys_dict)):
 				keys_dict['KeyboardKey' + str(i + next_key)] = keys_dict['KeyboardKey' + str(i)]
 				del keys_dict['KeyboardKey' + str(i)]
@@ -203,10 +203,15 @@ class AppWindow(wx.Frame):
 		for key in ini_dict:
 			if 'KeyboardKey' in key:
 				num = ''.join(i for i in key if i.isdigit())
+				print(key)
 				if int(num) > int(next_key):
 					next_key = int(num)
 		
-		return next_key + 1
+		if next_key >= 0:
+			next_key += 1
+
+		print(next_key)
+		return next_key
 
 	def btn_install_on_click(self, event):
 		mach_dir = self.mach_dir_url.GetValue()
