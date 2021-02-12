@@ -14,7 +14,7 @@ https://github.com/jakern/ESP32-BLE-Combo
 3. The ESP32 device should show up in the list of available Bluetooth devices in Windows. Connect to the ESP32 Bluetooth device.
 
 <p align="center">
-  <img src="/img/add_bluetooth_dev.png" width="250"/>
+  <img src="/img/add_bluetooth_dev.png" height="300" width="300"/>
 </p>
 
 ## Mach4 Software Setup
@@ -22,13 +22,13 @@ https://github.com/jakern/ESP32-BLE-Combo
 2. Select the Mach4 profile and press Install.
 
 <p align="center">
-  <img src="/img/installer.png" width="250"/>
+  <img src="/img/installer.png" width="350"/>
 </p>
 
 4. To monitor the status of the device, turn on the ESP32 MPG, open Mach4 and navigate to Wizard->Select Wizard->MPGWizBluetooth in the File Menu.
    
 <p align="center">
-  <img src="/img/wizard.PNG" width="300"/>
+  <img src="/img/wizard.PNG" width="350"/>
 </p>
  
 ## Wiring
