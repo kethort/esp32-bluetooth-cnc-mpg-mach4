@@ -25,7 +25,7 @@ https://github.com/jakern/ESP32-BLE-Combo
   <img src="/img/installer.png" width="350"/>
 </p>
 
-4. To monitor the status of the device, turn on the ESP32 MPG, open Mach4 and navigate to Wizard->Select Wizard->MPGWizBluetooth in the File Menu.
+3. To monitor the status of the device, turn on the ESP32 MPG, open Mach4 and navigate to Wizard->Select Wizard->MPGWizBluetooth in the File Menu.
    
 <p align="center">
   <img src="/img/wizard.PNG" width="350"/>
