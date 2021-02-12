@@ -200,7 +200,6 @@ class AppWindow(wx.Frame):
 						if keys_dict['KeyboardKey' + str(i)]['IO_Name'] == ini_dict[key]['IO_Name']:
 							skip_key = True
 
-				print(keys_dict['KeyboardKey' + str(i)]['IO_Name'])
 				if not skip_key:
 					new_dict['KeyboardKey' + str(str_key)] = keys_dict['KeyboardKey' + str(i)]
 
