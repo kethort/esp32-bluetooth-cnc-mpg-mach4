@@ -14,7 +14,7 @@ https://github.com/jakern/ESP32-BLE-Combo
 3. The ESP32 device should show up in the list of available Bluetooth devices in Windows. Connect to the ESP32 Bluetooth device.
 
 <p align="center">
-  <img src="/img/add_bluetooth_dev.png" height="300" width="300"/>
+  <img src="/img/add_bluetooth_dev.png" height="300" width="500"/>
 </p>
 
 ## Mach4 Software Setup
