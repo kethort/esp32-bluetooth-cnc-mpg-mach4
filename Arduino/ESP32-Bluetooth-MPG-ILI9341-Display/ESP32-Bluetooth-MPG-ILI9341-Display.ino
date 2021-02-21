@@ -52,6 +52,9 @@ TFT_eSPI tft = TFT_eSPI();
 #define NEXTBUTTON_X 164
 #define NEXTBUTTON_Y 265
 
+#define MAINBUTTON_X 85
+#define MAINBUTTON_Y 265
+
 #define MPGEN 25
 
 int lastCounts = 0;
@@ -88,9 +91,10 @@ void setup() {
 
   pinMode(25, INPUT_PULLUP);
 
-  drawAxisButtons();
-  drawIncButtons();
-  drawPrevNextButtons(); 
+  //drawAxisButtons();
+  //drawIncButtons();
+  //drawPrevNextButtons(); 
+  drawMainPage();
 
   encoder.attachFullQuad(2, 4);
   encoder.clearCount();
@@ -127,6 +131,17 @@ void loop() {
   if(Keyboard.isConnected()) {
     if (encoderDirection != 0) {
       Mouse.move(0, 0, encoderDirection);
+    }
+  }
+
+  uint16_t x, y;
+
+  if (tft.getTouch(&x, &y))
+  {
+    if ((x > MAINBUTTON_X) && (x < (MAINBUTTON_X + AXISBUTTON_W))) {
+      if ((y > MAINBUTTON_Y) && (y <= (MAINBUTTON_Y + AXISBUTTON_H))) {
+        drawMainPage();
+      }
     }
   }
 }
@@ -194,7 +209,7 @@ void touch_calibrate() {
     }
   }
 }
-
+  
 void getTouchPageTwo() {
   uint16_t x, y;
 
@@ -310,6 +325,19 @@ void getTouchPageTwo() {
   }
 }
 
+void drawMainPage() {
+  drawMainPageButton();
+}
+
+void drawMainPageButton() {
+   tft.fillRect(MAINBUTTON_X, MAINBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
+   tft.setTextColor(TFT_BLACK);
+   tft.setTextSize(2);
+   tft.setTextDatum(MC_DATUM);
+   tft.drawString("Main", MAINBUTTON_X + (AXISBUTTON_W / 2), MAINBUTTON_Y + (AXISBUTTON_H / 2));
+}
+
+/*
 void drawPrevNextButtons() {
    tft.fillRect(PREVBUTTON_X, PREVBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
    tft.setTextColor(TFT_BLACK);
@@ -323,6 +351,7 @@ void drawPrevNextButtons() {
    tft.setTextDatum(MC_DATUM);
    tft.drawString(">", NEXTBUTTON_X + (AXISBUTTON_W / 2), NEXTBUTTON_Y + (AXISBUTTON_H / 2));
 }
+*/
 
 void drawIncButtons() {
   tft.setTextColor(TFT_WHITE);

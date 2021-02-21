@@ -236,6 +236,7 @@ class AppWindow(wx.Frame):
 		#  enable keyboard and regfile plugins
 		self.enable_plugin_in_ini(ini_dict, 'mcRegfile')
 		self.enable_plugin_in_ini(ini_dict, 'mcKeyboard')
+		self.enable_plugin_in_ini(ini_dict, 'mcLua')
 
 		# update ini_dict with input signal settings from file
 		input_sigs_dict = self.machine_ini_to_dict('input_signals')
