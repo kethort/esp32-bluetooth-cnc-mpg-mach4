@@ -268,16 +268,27 @@ class AppWindow(wx.Frame):
 			zip_ref.extractall(temp_dir)
 
 		# edit the signal library in the Mach4 screen load script
-		sig_lib = open('update_sig_lib')
-		screen_load = '\n' + sig_lib.read()
-		sig_lib.close()
+		ini_settings = open('update_plc')
+		plc = '\n' + ini_settings.read()
+		ini_settings = open('update_screenload')
+		screen_load = '\n' + ini_settings.read()
+		ini_settings.close()
 
 		tree = et.parse(os.path.join(temp_dir, 'screen.xml'))
 		
+		for node in tree.iter('Property'):
+			if node.attrib['name'] == 'PLC Interval':
+				node.text = '5'
+				break
+
 		for node in tree.iter('Event'):    
 			if node.attrib['name'] == 'Screen Load Script':
-				if not 'update_sig_lib' in node.text:
+				if not 'update_screenload' in node.text:
 					node.text += screen_load	
+			if node.attrib['name'] == 'PLC Script':
+				if not 'waitForScreenLoad' in node.text:
+					node.text += plc
+				break
 
 		tree.write(os.path.join(temp_dir, 'screen.xml'))
 		
