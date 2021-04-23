@@ -8,7 +8,7 @@
 TFT_eSPI tft = TFT_eSPI();       
 
 // This is the file name used to store the touch coordinate
-// calibration data. Cahnge the name to start a new calibration.
+// calibration data. Change the name to start a new calibration.
 #define CALIBRATION_FILE "/TouchCalData4"
 
 // Set REPEAT_CAL to true instead of false to run calibration
@@ -55,7 +55,10 @@ TFT_eSPI tft = TFT_eSPI();
 #define MAINBUTTON_X 85
 #define MAINBUTTON_Y 265
 
-#define MPGEN 25
+#define MPGEN 32
+#define SCRLED 27
+
+//#define DEBUG // enables Serial
 
 int lastCounts = 0;
 byte lastAxis;
@@ -77,34 +80,33 @@ int getJogWheelDirection() {
 }
 
 void setup() {
-  //Serial.begin(115200);
+#ifdef DEBUG
+  Serial.begin(115200);
+#endif
+
   tft.init();
-
-  // Set the rotation before we calibrate
   tft.setRotation(0);
-
-  // call screen calibration
   touch_calibrate();
-
-  // clear screen
   tft.fillScreen(TFT_BLACK);
+  tft.setTextSize(2);
+  tft.setTextDatum(MC_DATUM);
 
-  pinMode(25, INPUT_PULLUP);
+  pinMode(MPGEN, INPUT_PULLUP);
+  pinMode(SCRLED, OUTPUT);
+  digitalWrite(SCRLED, HIGH);
 
-  //drawAxisButtons();
-  //drawIncButtons();
-  //drawPrevNextButtons(); 
-  drawMainPage();
-
-  encoder.attachFullQuad(2, 4);
+  encoder.attachFullQuad(4, 2);
   encoder.clearCount();
 
   Mouse.begin();
   Keyboard.begin();
+
+  drawIncButtons();
+  drawAxisButtons();
 }
 
 void loop() {  
-  getTouchPageTwo();
+  getTouchMPG();
 
   if(!digitalRead(MPGEN)) {
     if (wasDisabled) {
@@ -133,84 +135,9 @@ void loop() {
       Mouse.move(0, 0, encoderDirection);
     }
   }
-
-  uint16_t x, y;
-
-  if (tft.getTouch(&x, &y))
-  {
-    if ((x > MAINBUTTON_X) && (x < (MAINBUTTON_X + AXISBUTTON_W))) {
-      if ((y > MAINBUTTON_Y) && (y <= (MAINBUTTON_Y + AXISBUTTON_H))) {
-        drawMainPage();
-      }
-    }
-  }
 }
 
-void touch_calibrate() {
-  uint16_t calData[5];
-  uint8_t calDataOK = 0;
-
-  // check file system exists
-  if (!SPIFFS.begin()) {
-    Serial.println("Formating file system");
-    SPIFFS.format();
-    SPIFFS.begin();
-  }
-
-  // check if calibration file exists and size is correct
-  if (SPIFFS.exists(CALIBRATION_FILE)) {
-    if (REPEAT_CAL)
-    {
-      // Delete if we want to re-calibrate
-      SPIFFS.remove(CALIBRATION_FILE);
-    }
-    else
-    {
-      File f = SPIFFS.open(CALIBRATION_FILE, "r");
-      if (f) {
-        if (f.readBytes((char *)calData, 14) == 14)
-          calDataOK = 1;
-        f.close();
-      }
-    }
-  }
-
-  if (calDataOK && !REPEAT_CAL) {
-    // calibration data valid
-    tft.setTouch(calData);
-  } else {
-    // data not valid so recalibrate
-    tft.fillScreen(TFT_BLACK);
-    tft.setCursor(20, 0);
-    tft.setTextFont(2);
-    tft.setTextSize(1);
-    tft.setTextColor(TFT_WHITE, TFT_BLACK);
-
-    tft.println("Touch corners as indicated");
-
-    tft.setTextFont(1);
-    tft.println();
-
-    if (REPEAT_CAL) {
-      tft.setTextColor(TFT_RED, TFT_BLACK);
-      tft.println("Set REPEAT_CAL to false to stop this running again!");
-    }
-
-    tft.calibrateTouch(calData, TFT_MAGENTA, TFT_BLACK, 15);
-
-    tft.setTextColor(TFT_GREEN, TFT_BLACK);
-    tft.println("Calibration complete!");
-
-    // store data
-    File f = SPIFFS.open(CALIBRATION_FILE, "w");
-    if (f) {
-      f.write((const unsigned char *)calData, 14);
-      f.close();
-    }
-  }
-}
-  
-void getTouchPageTwo() {
+void getTouchMPG() {
   uint16_t x, y;
 
   if (tft.getTouch(&x, &y))
@@ -325,56 +252,18 @@ void getTouchPageTwo() {
   }
 }
 
-void drawMainPage() {
-  drawMainPageButton();
-}
-
-void drawMainPageButton() {
-   tft.fillRect(MAINBUTTON_X, MAINBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-   tft.setTextColor(TFT_BLACK);
-   tft.setTextSize(2);
-   tft.setTextDatum(MC_DATUM);
-   tft.drawString("Main", MAINBUTTON_X + (AXISBUTTON_W / 2), MAINBUTTON_Y + (AXISBUTTON_H / 2));
-}
-
-/*
-void drawPrevNextButtons() {
-   tft.fillRect(PREVBUTTON_X, PREVBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-   tft.setTextColor(TFT_BLACK);
-   tft.setTextSize(2);
-   tft.setTextDatum(MC_DATUM);
-   tft.drawString("<", PREVBUTTON_X + (AXISBUTTON_W / 2), PREVBUTTON_Y + (AXISBUTTON_H / 2));
-
-   tft.fillRect(NEXTBUTTON_X, NEXTBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-   tft.setTextColor(TFT_BLACK);
-   tft.setTextSize(2);
-   tft.setTextDatum(MC_DATUM);
-   tft.drawString(">", NEXTBUTTON_X + (AXISBUTTON_W / 2), NEXTBUTTON_Y + (AXISBUTTON_H / 2));
-}
-*/
-
 void drawIncButtons() {
   tft.setTextColor(TFT_WHITE);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("MPG Increment:", 125, 170);
-  
-  tft.fillRect(INC1BUTTON_X, INC1BUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
+
   tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
+  tft.fillRect(INC1BUTTON_X, INC1BUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
   tft.drawString("0.001", INC1BUTTON_X + (AXISBUTTON_W / 2), INC1BUTTON_Y + (AXISBUTTON_H / 2));
   
   tft.fillRect(INC2BUTTON_X, INC2BUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-  tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("0.01", INC2BUTTON_X + (AXISBUTTON_W / 2), INC2BUTTON_Y + (AXISBUTTON_H / 2));
   
   tft.fillRect(INC3BUTTON_X, INC3BUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-  tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("0.1", INC3BUTTON_X + (AXISBUTTON_W / 2), INC3BUTTON_Y + (AXISBUTTON_H / 2));
 }
 
@@ -383,41 +272,24 @@ void drawAxisButtons() {
   tft.setTextSize(2);
   tft.setTextDatum(MC_DATUM);
   tft.drawString("MPG Axis:", 120, 20);
-  
-  tft.fillRect(XAXISBUTTON_X, XAXISBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
+
   tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
+  tft.fillRect(XAXISBUTTON_X, XAXISBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
   tft.drawString("X", XAXISBUTTON_X + (AXISBUTTON_W / 2), XAXISBUTTON_Y + (AXISBUTTON_H / 2)); 
   
   tft.fillRect(YAXISBUTTON_X, YAXISBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-  tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("Y", YAXISBUTTON_X + (AXISBUTTON_W / 2), YAXISBUTTON_Y + (AXISBUTTON_H / 2)); 
   
   tft.fillRect(ZAXISBUTTON_X, ZAXISBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-  tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("Z", ZAXISBUTTON_X + (AXISBUTTON_W / 2), ZAXISBUTTON_Y + (AXISBUTTON_H / 2)); 
   
   tft.fillRect(AAXISBUTTON_X, AAXISBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-  tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("A", AAXISBUTTON_X + (AXISBUTTON_W / 2), AAXISBUTTON_Y + (AXISBUTTON_H / 2)); 
   
   tft.fillRect(BAXISBUTTON_X, BAXISBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-  tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("B", BAXISBUTTON_X + (AXISBUTTON_W / 2), BAXISBUTTON_Y + (AXISBUTTON_H / 2)); 
   
   tft.fillRect(CAXISBUTTON_X, CAXISBUTTON_Y, AXISBUTTON_W, AXISBUTTON_H, TFT_DARKGREY);
-  tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString("C", CAXISBUTTON_X + (AXISBUTTON_W / 2), CAXISBUTTON_Y + (AXISBUTTON_H / 2));
 }
 
@@ -425,8 +297,6 @@ void selectAxis(int32_t x, int32_t y, const char *axisID) {
   drawAxisButtons();
   tft.fillRect(x, y, AXISBUTTON_W, AXISBUTTON_H, TFT_GREEN);
   tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString(axisID, x + (AXISBUTTON_W / 2), y + (AXISBUTTON_H / 2));
 }
 
@@ -434,7 +304,72 @@ void selectInc(int32_t x, int32_t y, const char *axisID) {
   drawIncButtons();
   tft.fillRect(x, y, AXISBUTTON_W, AXISBUTTON_H, TFT_GREEN);
   tft.setTextColor(TFT_BLACK);
-  tft.setTextSize(2);
-  tft.setTextDatum(MC_DATUM);
   tft.drawString(axisID, x + (AXISBUTTON_W / 2), y + (AXISBUTTON_H / 2));
+}
+
+void touch_calibrate() {
+  
+  uint16_t calData[5];
+  uint8_t calDataOK = 0;
+
+  // check file system exists
+  if (!SPIFFS.begin()) {
+#ifdef DEBUG
+    Serial.println("Formating file system");
+#endif
+    SPIFFS.format();
+    SPIFFS.begin();
+  }
+
+  // check if calibration file exists and size is correct
+  if (SPIFFS.exists(CALIBRATION_FILE)) {
+    if (REPEAT_CAL)
+    {
+      // Delete if we want to re-calibrate
+      SPIFFS.remove(CALIBRATION_FILE);
+    }
+    else
+    {
+      File f = SPIFFS.open(CALIBRATION_FILE, "r");
+      if (f) {
+        if (f.readBytes((char *)calData, 14) == 14)
+          calDataOK = 1;
+        f.close();
+      }
+    }
+  }
+
+  if (calDataOK && !REPEAT_CAL) {
+    // calibration data valid
+    tft.setTouch(calData);
+  } else {
+    // data not valid so recalibrate
+    tft.fillScreen(TFT_BLACK);
+    tft.setCursor(20, 0);
+    tft.setTextFont(2);
+    tft.setTextSize(1);
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
+
+    tft.println("Touch corners as indicated");
+
+    tft.setTextFont(1);
+    tft.println();
+
+    if (REPEAT_CAL) {
+      tft.setTextColor(TFT_RED, TFT_BLACK);
+      tft.println("Set REPEAT_CAL to false to stop this running again!");
+    }
+
+    tft.calibrateTouch(calData, TFT_MAGENTA, TFT_BLACK, 15);
+
+    tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    tft.println("Calibration complete!");
+
+    // store data
+    File f = SPIFFS.open(CALIBRATION_FILE, "w");
+    if (f) {
+      f.write((const unsigned char *)calData, 14);
+      f.close();
+    }
+  }
 }

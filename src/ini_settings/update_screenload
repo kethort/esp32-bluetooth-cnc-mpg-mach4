@@ -5,7 +5,6 @@ waitForScreenLoad = true
 update_screenload = {
 	[mc.ISIG_INPUT55] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'x axis')
 			mpgSelectedAxis = 1
 			mc.mcMpgSetAxis(inst, 11, 0)
 		end
@@ -13,7 +12,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT56] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'y axis')
 			mpgSelectedAxis = 2
 			mc.mcMpgSetAxis(inst, 11, 1)
 		end
@@ -21,7 +19,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT57] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'z axis')
 			mpgSelectedAxis = 3
 			mc.mcMpgSetAxis(inst, 11, 2)
 		end
@@ -29,7 +26,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT58] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'a axis')
 			mpgSelectedAxis = 4
 			mc.mcMpgSetAxis(inst, 11, 3)
 		end
@@ -37,7 +33,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT59] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'b axis')
 			mpgSelectedAxis = 5
 			mc.mcMpgSetAxis(inst, 11, 4)
 		end
@@ -45,7 +40,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT60] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'c axis')
 			mpgSelectedAxis = 6
 			mc.mcMpgSetAxis(inst, 11, 5)
 		end
@@ -53,7 +47,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT61] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'inc 1')
 			mpgSelectedInc = 1
 			mc.mcMpgSetInc(inst, 11, 0.001)
 		end
@@ -61,7 +54,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT62] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'inc 2')
 			mpgSelectedInc = 2
 			mc.mcMpgSetInc(inst, 11, 0.01)
 		end
@@ -69,7 +61,6 @@ update_screenload = {
 
 	[mc.ISIG_INPUT63] = function (state)
 		if state == 1 then
-			--mc.mcCntlSetLastError(inst, 'inc 3')
 			mpgSelectedInc = 3
 			mc.mcMpgSetInc(inst, 11, 0.1)
 		end
