@@ -84,6 +84,10 @@ void setup() {
   Serial.begin(115200);
 #endif
 
+  pinMode(SCRLED, OUTPUT);
+  digitalWrite(SCRLED, HIGH);
+  delay(250);
+  
   tft.init();
   tft.setRotation(0);
   touch_calibrate();
@@ -92,8 +96,6 @@ void setup() {
   tft.setTextDatum(MC_DATUM);
 
   pinMode(MPGEN, INPUT_PULLUP);
-  pinMode(SCRLED, OUTPUT);
-  digitalWrite(SCRLED, HIGH);
 
   encoder.attachFullQuad(4, 2);
   encoder.clearCount();
