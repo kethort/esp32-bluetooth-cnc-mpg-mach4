@@ -9,9 +9,17 @@ https://github.com/madhephaestus/ESP32Encoder <br>
 https://github.com/jakern/ESP32-BLE-Combo
 
 ## ESP32 Firmware and Network Setup
-1. Upload the ESP32-Bluetooth-MPG.ino file to the ESP32 using the Arduino (or other) IDE.
-2. Reboot the ESP32.
-3. The ESP32 device should show up in the list of available Bluetooth devices in Windows. Connect to the ESP32 Bluetooth device.
+1. Download NodeMCU-PyFlasher.exe program from here: https://github.com/marcelstoer/nodemcu-pyflasher/releases
+2. Connect a USB to FTDI or CP2102 to FTL programmer to the ESP32 PCB at the programmer port. 
+3. Select the COM port of the programmer in the NodeMCU program.
+4. Select the ESP32-Bluetooth-MPG.ino.bin or ESP32-Bluetooth-MPG-ILI9341-Display.ino.bin file from the fw-build folder and press the Flash NodeMCU button to flash the firmware to the ESP32.
+5. Reboot the ESP32.
+
+<p align="center">
+  <img src="/img/fw-upload.PNG" width="500"/>
+</p>
+
+6. The ESP32 device should show up in the list of available Bluetooth devices in Windows. Connect to the ESP32 Bluetooth device.
 
 <p align="center">
   <img src="/img/add_bluetooth_dev.png" height="400" width="500"/>
