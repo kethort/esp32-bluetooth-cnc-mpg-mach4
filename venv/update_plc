@@ -1,7 +1,0 @@
-
-if os.clock() > loadTimer and waitForScreenLoad then
-	waitForScreenLoad = false
-		
-	local keyboardEnableReg = mc.mcIoGetHandle (inst, "Keyboard/Enable")
-	mc.mcIoSetState(keyboardEnableReg, 1)
-end
