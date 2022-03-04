@@ -1,6 +1,14 @@
 # Mach4 Bluetooth MPG Handwheel Using ESP32
 Mach4 CNC MPG Handwheel using ESP32 via Bluetooth
 
+<p align="center">
+  <img src="/img/IMG-0914.jpg" width="500"/>
+</p>
+
+<p align="center">
+  <img src="/img/IMG-0915.jpg" width="500"/>
+</p>
+
 ## Demonstration
 https://www.youtube.com/watch?v=MvadVEjZ93Q
 
