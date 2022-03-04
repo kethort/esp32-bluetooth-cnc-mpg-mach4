@@ -4,10 +4,6 @@ Mach4 CNC MPG Handwheel using ESP32 via Bluetooth
 ## Demonstration
 https://www.youtube.com/watch?v=MvadVEjZ93Q
 
-## Required Arduino Libraries
-https://github.com/madhephaestus/ESP32Encoder <br>
-https://github.com/jakern/ESP32-BLE-Combo
-
 ## ESP32 Firmware and Network Setup
 1. Download NodeMCU-PyFlasher.exe program from here: https://github.com/marcelstoer/nodemcu-pyflasher/releases/tag/v5.0.0
 2. Connect a USB to FTDI or CP2102 to FTL programmer to the ESP32 PCB at the programmer port. 

@@ -246,6 +246,15 @@ class AppWindow(wx.Frame):
 		self.add_keyboard_keys_to_plugin(ini_dict)
 
 		# enable MPG 11 in Machine.ini activate the mousewheel and modify settings
+		if not 'Mpg11' in ini_dict:
+			for i in range(0, 12):
+				ini_dict['Mpg' + str(i)] = {}
+				ini_dict['Mpg' + str(i)]['Enabled'] = 0
+				ini_dict['Mpg' + str(i)]['CountsPerDetent'] = 1
+				ini_dict['Mpg' + str(i)]['AccelPercent'] = 0.0
+				ini_dict['Mpg' + str(i)]['RatePercent'] = 0.0
+				ini_dict['Mpg' + str(i)]['Reversed'] = 0
+				
 		ini_dict['Mpg11']['Enabled'] = 1 
 		ini_dict['Mpg11']['CountsPerDetent'] = 4
 		ini_dict['Mpg11']['AccelPercent'] = 100

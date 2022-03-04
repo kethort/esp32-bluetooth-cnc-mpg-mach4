@@ -1,3 +1,17 @@
 Traceback (most recent call last):
   File "MPGInstaller.py", line 272, in btn_install_on_click
 UnboundLocalError: local variable 'plc' referenced before assignment
+Traceback (most recent call last):
+  File "MPGInstaller.py", line 249, in btn_install_on_click
+KeyError: 'Mpg11'
+Traceback (most recent call last):
+  File "MPGInstaller.py", line 249, in btn_install_on_click
+KeyError: 'Mpg11'
+Traceback (most recent call last):
+  File "MPGInstaller.py", line 276, in btn_install_on_click
+  File "zipfile.pyc", line 1239, in __init__
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Mach4Hobby\\Screens\\wx6.set'
+Traceback (most recent call last):
+  File "MPGInstaller.py", line 276, in btn_install_on_click
+  File "zipfile.pyc", line 1239, in __init__
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Mach4Hobby\\Screens\\wx6.set'

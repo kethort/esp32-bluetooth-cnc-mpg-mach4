@@ -1,0 +1,63 @@
+[Signal56]
+ID=56
+Type=Input
+Desc=Input #55
+Enabled=1
+Negated=0
+Mapping=Keyboard/XMPG
+[Signal57]
+ID=57
+Type=Input
+Desc=Input #56
+Enabled=1
+Negated=0
+Mapping=Keyboard/YMPG
+[Signal58]
+ID=58
+Type=Input
+Desc=Input #57
+Enabled=1
+Negated=0
+Mapping=Keyboard/ZMPG
+[Signal59]
+ID=59
+Type=Input
+Desc=Input #58
+Enabled=1
+Negated=0
+Mapping=Keyboard/AMPG
+[Signal60]
+ID=60
+Type=Input
+Desc=Input #59
+Enabled=1
+Negated=0
+Mapping=Keyboard/BMPG
+[Signal61]
+ID=61
+Type=Input
+Desc=Input #60
+Enabled=1
+Negated=0
+Mapping=Keyboard/CMPG
+[Signal62]
+ID=62
+Type=Input
+Desc=Input #61
+Enabled=1
+Negated=0
+Mapping=Keyboard/INC1MPG
+[Signal63]
+ID=63
+Type=Input
+Desc=Input #62
+Enabled=1
+Negated=0
+Mapping=Keyboard/INC2MPG
+[Signal64]
+ID=64
+Type=Input
+Desc=Input #63
+Enabled=1
+Negated=0
+Mapping=Keyboard/INC3MPG

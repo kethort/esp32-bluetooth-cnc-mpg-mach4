@@ -58,6 +58,10 @@ TFT_eSPI tft = TFT_eSPI();
 #define MPGEN 32
 #define SCRLED 27
 
+#define SCR_TMOUT 30000
+uint32_t screenTime = 0; 
+bool screenActive = true;
+
 //#define DEBUG // enables Serial
 
 int lastCounts = 0;
@@ -108,6 +112,19 @@ void setup() {
 }
 
 void loop() {  
+  // turn on the screen if enable button
+  if(!digitalRead(MPGEN)) {
+    screenTime = millis();
+    screenActive = true;
+    digitalWrite(SCRLED, HIGH);
+  }
+  
+  // turn off the screen if no touch for 30 seconds
+  if (millis() - screenTime >= SCR_TMOUT) {
+    screenActive = false;
+    digitalWrite(SCRLED, LOW);
+  }
+  
   getTouchMPG();
 
   if(!digitalRead(MPGEN)) {
@@ -144,6 +161,14 @@ void getTouchMPG() {
 
   if (tft.getTouch(&x, &y))
   { 
+    screenTime = millis();
+
+    // turn on the screen if was off
+    if (!screenActive) {
+      screenActive = true;
+      digitalWrite(SCRLED, HIGH);
+    }
+    
     if ((x > XAXISBUTTON_X) && (x < (XAXISBUTTON_X + AXISBUTTON_W))) {
       if ((y > XAXISBUTTON_Y) && (y <= (XAXISBUTTON_Y + AXISBUTTON_H))) {
         selectAxis(XAXISBUTTON_X, XAXISBUTTON_Y, "X");
