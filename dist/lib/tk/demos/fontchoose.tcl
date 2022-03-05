@@ -55,6 +55,10 @@ grid $f.msg $f.vs -sticky news
 grid $f.font -    -sticky e
 grid columnconfigure $f 0 -weight 1
 grid rowconfigure $f 0 -weight 1
+bind $w <Visibility> {
+    bind %W <Visibility> {}
+    grid propagate %W.f 0
+}
 
 ## See Code / Dismiss buttons
 set btns [addSeeDismiss $w.buttons $w]
@@ -63,5 +67,3 @@ grid $f -sticky news
 grid $btns -sticky ew
 grid columnconfigure $w 0 -weight 1
 grid rowconfigure $w 0 -weight 1
-update idletasks
-grid propagate $f 0

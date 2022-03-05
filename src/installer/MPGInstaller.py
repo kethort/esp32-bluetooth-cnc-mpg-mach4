@@ -216,6 +216,8 @@ class AppWindow(wx.Frame):
 		
 		if next_key >= 0:
 			next_key += 1
+		else:
+			next_key = 0
 
 		return next_key
 
@@ -238,12 +240,13 @@ class AppWindow(wx.Frame):
 		self.enable_plugin_in_ini(ini_dict, 'mcKeyboard')
 		self.enable_plugin_in_ini(ini_dict, 'mcLua')
 
-		# update ini_dict with input signal settings from file
-		input_sigs_dict = self.machine_ini_to_dict('input_signals')
-		ini_dict.update(input_sigs_dict)
 
 		# update ini_dict with keyboard plugin key mappings
 		self.add_keyboard_keys_to_plugin(ini_dict)
+
+		# update ini_dict with input signal settings from file
+		input_sigs_dict = self.machine_ini_to_dict('input_signals')
+		ini_dict.update(input_sigs_dict)
 
 		# enable MPG 11 in Machine.ini activate the mousewheel and modify settings
 		if not 'Mpg11' in ini_dict:
