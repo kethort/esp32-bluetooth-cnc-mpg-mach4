@@ -42,7 +42,22 @@ https://www.youtube.com/watch?v=MvadVEjZ93Q
 <p align="center">
   <img src="/img/wizard.PNG" width="350"/>
 </p>
- 
+
+## PCB Gerber File & 3d print files for Display included
+Original 3d print: https://www.thingiverse.com/thing:4539827
+
+<p align="center">
+  <img src="/img/PCB.PNG" width="300"/>
+</p>
+
+<p align="center">
+  <img src="/img/PCB-exploded.png" width="700"/>
+</p>
+
+<p align="center">
+  <img src="/img/PCB-programming-port.png" width="700"/>
+</p>
+
 ## Wiring
 MPG PCB: <br>
     ESP32 GND    -> COM <br>
